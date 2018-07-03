@@ -231,8 +231,12 @@
     },
 
     _runDelayedTriggers: function(){
-      while (this._getDelayedTriggers().length > 0){
-        this.trigger.apply(this, this._getDelayedTriggers().shift());
+      if (this._getDelayedTriggers().length > 0) {
+        var context = this;
+        this._getDelayedTriggers().forEach(function (trigger) {
+          context.trigger.apply(context, trigger);
+        });
+        this._getDelayedTriggers().splice(0, this._getDelayedTriggers().length)
       }
     },
 
